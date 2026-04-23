@@ -1,0 +1,238 @@
+.auth-container {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  color: var(--text-main);
+}
+
+/* Glow Background */
+.auth-glow {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  width: 900px;
+  height: 600px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(120, 160, 255, 0.25), transparent 70%);
+  filter: blur(150px);
+  z-index: -1;
+}
+
+/* Top Bar */
+.auth-top {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auth-back-btn {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+
+:root[data-theme="dark"] .auth-back-btn {
+  background: rgba(15, 23, 42, 0.75);
+  color: white;
+}
+
+.auth-toggle {
+  font-size: 1rem;
+}
+
+/* Logo */
+.auth-logo-wrap {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.auth-logo {
+  width: 100px;
+  margin-bottom: 10px;
+  filter: brightness(5) saturate(0);
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Glass Form Card */
+.auth-card {
+  margin-top: 40px;
+  padding: 32px;
+  width: 100%;
+  max-width: 380px;
+
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme="dark"] .auth-card {
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Inputs */
+.auth-input {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+:root[data-theme="dark"] .auth-input {
+  background: rgba(15, 23, 42, 0.85);
+  color: white;
+}
+
+/* Buttons */
+.auth-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.auth-switch {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.auth-switch span {
+  color: var(--accent-1);
+  cursor: pointer;
+}
+
+/* Helpers for removal of inline styles */
+.auth-error-msg {
+  color: #ef4444;
+  /* red-500 */
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.auth-form-full {
+  width: 100%;
+}
+
+.auth-separator {
+  margin: 1rem 0;
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+  border: none;
+}
+
+:root[data-theme="dark"] .btn-google {
+  background: white;
+  color: #333;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.auth-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.auth-loading-card {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ------------------------------------------------ */
+/* MOBILE RESPONSIVE AUTH                          */
+/* ------------------------------------------------ */
+
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 16px;
+    justify-content: center;
+  }
+
+  .auth-top {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .auth-card {
+    margin-top: 10px;
+    max-width: 100%;
+    padding: 24px;
+    width: 100% !important;
+  }
+
+  .auth-title {
+    font-size: 24px;
+  }
+
+  .auth-logo {
+    width: 80px;
+  }
+
+  .auth-glow {
+    display: none;
+    /* improve performance on mobile */
+  }
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  color: #888;
+  font-size: 14px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-divider:not(:empty)::before {
+  margin-right: 15px;
+}
+
+.auth-divider:not(:empty)::after {
+  margin-left: 15px;
+}
+
+.auth-google-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}

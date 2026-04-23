@@ -1,0 +1,155 @@
+:root {
+  --bg: #f5f6fa;
+  --bg-soft: #f3f4ff;
+  --text-main: #0b1120;
+  --text-muted: #6b7280;
+  --accent-1: #6366f1;
+  --accent-2: #8b5cf6;
+  --card-bg: #ffffff;
+  --border-subtle: #e5e7eb;
+  --nav-glass: rgba(255, 255, 255, 0.75);
+  --shadow-soft: 0 16px 35px rgba(15, 23, 42, 0.12);
+}
+
+:root[data-theme="dark"] {
+  --bg: #020617;
+  --bg-soft: #020617;
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+  --accent-1: #6366f1;
+  --accent-2: #ec4899;
+  --card-bg: rgba(15, 23, 42, 0.96);
+  --border-subtle: rgba(148, 163, 184, 0.6);
+  --nav-glass: rgba(15, 23, 42, 0.88);
+  --shadow-soft: 0 20px 45px rgba(15, 23, 42, 0.9);
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BACKGROUND */
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-main);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--bg);
+}
+
+/* ULTRA PREMIUM LIGHT MODE BACKGROUND */
+:root:not([data-theme="dark"]) body {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(130, 160, 255, 0.30), transparent 70%),
+    radial-gradient(circle at 80% 20%, rgba(180, 120, 255, 0.25), transparent 75%),
+    linear-gradient(to bottom right, #eef2ff, #f5f7ff);
+  background-blend-mode: screen;
+  filter: none;
+}
+
+/* GLOBAL BUTTONS */
+.btn-primary {
+  padding: 9px 20px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: white;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+  box-shadow: 0 16px 40px rgba(99, 102, 241, 0.45);
+}
+
+.btn-secondary {
+  padding: 9px 16px;
+  width: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: white;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+  box-shadow: 0 16px 35px rgba(99, 102, 241, 0.45);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent-1);
+  border: 1px solid var(--accent-1);
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-outline:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* MOBILE RESPONSIVE UTILITIES */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .container,
+  .main-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    width: 100% !important;
+    min-width: 0;
+  }
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+}
+
+/* ANALYTICS HUB & PREMIUM STYLES (Provided for future expansion) */
+.analytics-hub-container {
+    padding: 24px;
+    background: var(--card-bg);
+    border-radius: 24px;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-main);
+    height: 100%;
+}
