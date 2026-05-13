@@ -212,6 +212,12 @@ export default function InfluencerForm() {
       <div className="inf-top">
         <button onClick={() => navigate(-1)} className="inf-back-btn">← Back</button>
 
+        {user?.role === "influencer" && (
+          <button className="inf-back-btn" onClick={() => navigate("/influencer-dashboard")} style={{ marginLeft: '10px', color: '#6366f1' }}>
+             Dashboard →
+          </button>
+        )}
+
         <div className="inf-top-right">
           <CurrencySelector />
           <button onClick={toggleTheme} className="inf-toggle-btn">

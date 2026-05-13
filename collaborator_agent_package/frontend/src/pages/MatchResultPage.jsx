@@ -14,7 +14,9 @@ export default function MatchResultPage() {
     const { currency } = useCurrency();
     const location = useLocation();
     const navigate = useNavigate();
-    const { matches = [], role } = location.state || { matches: [], role: "influencer" };
+    const state = location.state || {};
+    const matches = Array.isArray(state.matches) ? state.matches : [];
+    const role = state.role || "influencer";
 
     // Theme State (Sync with localStorage)
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
@@ -235,6 +237,7 @@ export default function MatchResultPage() {
                                 return (
                                     <LockedMatchCard
                                         key={i}
+                                        match={match}
                                         cardVariants={cardVariants}
                                         onUnlockClick={() => {
                                             setPendingUnlockIndex(i);

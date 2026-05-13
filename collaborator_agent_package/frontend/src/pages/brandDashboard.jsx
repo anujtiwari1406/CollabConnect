@@ -1,6 +1,6 @@
 // src/pages/brand/brandDashboard.jsx
 import React, { useEffect, useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Menu } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
 import "../styles/dashboard.css";
@@ -21,6 +21,7 @@ export default function BrandDashboard() {
   const { userId } = useParams(); // Get target userId for inspection
   const { user, logout } = useAuth();
   const { hasUnreadMessages } = useCollabCore();
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 1024);
 
   // ... [Lines 21-53 remain same] ...
   const [profile, setProfile] = useState(null);
@@ -110,195 +111,200 @@ export default function BrandDashboard() {
   const badges = ["Verified Brand", "Top Recruiter", "Fast Payout", "Trusted"];
 
   return (
-    <div className="influencer-dashboard">
-      <div><BackgroundEffects /></div>
+    <div className="dashboard-wrapper">
+      <BackgroundEffects />
+      
+      <div className={`influencer-dashboard ${sidebarOpen ? "sidebar-open" : ""}`}>
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* SIDEBAR (same component) */}
-      <Sidebar role="brand" />
-
-      <div className="influencer-main">
-        {/* NAVBAR */}
-        <nav className={`influencer-navbar ${scrolled ? "scrolled" : ""}`}>
-          <div className="nav-left">
-            <div className="nav-brand">
-              {localizeText("Collaborator", profile?.brandName || profile?.userId?.name, userId)}
+        <div className="dashboard-content">
+          <nav className={`influencer-navbar ${scrolled ? "scrolled" : ""}`}>
+            <div className="nav-left">
+              <button className="mobile-menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                <Menu size={24} />
+              </button>
+              <div className="nav-brand">
+                {localizeText("Collaborator", profile?.brandName || profile?.userId?.name, userId)}
+              </div>
             </div>
-          </div>
 
-          <div className="nav-right">
-            {!userId && (
-              <div className="dash-sidebar-bottom">
-                <div
-                  className="dash-cta dash-cursor-pointer"
-                  onClick={handleFindMatches}
-                  style={{ opacity: findingMatches ? 0.7 : 1, cursor: findingMatches ? 'wait' : 'pointer' }}
-                >
-                  {findingMatches ? "Finding..." : "Find Matches"}
+            <div className="nav-right">
+              {!userId && (
+                <div className="mobile-hidden">
+                  <button
+                    className="btn-primary-gradient"
+                    onClick={handleFindMatches}
+                    style={{ padding: '8px 20px', borderRadius: '99px' }}
+                  >
+                    {findingMatches ? "Finding..." : "Find Matches"}
+                  </button>
+                </div>
+              )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <CurrencySelector />
+                <button className="theme-toggle" onClick={toggleTheme}>
+                  {(document.documentElement.getAttribute("data-theme") || "light") === "dark"
+                    ? "☀️"
+                    : "🌙"}
+                </button>
+              </div>
+              <div
+                className="nav-profile-icon"
+                onClick={() => setShowModal(true)}
+                title="View Profile"
+              >
+                {data?.profileImg ? (
+                  <img src={data.profileImg} alt="Profile" className="nav-profile-img-inner" />
+                ) : (
+                  <div className="nav-profile-placeholder">🏢</div>
+                )}
+              </div>
+            </div>
+          </nav>
+          <div className="influencer-main">
+
+          {/* PROFILE MODAL */}
+          {showModal && (
+            <div className="modal-overlay" onClick={() => setShowModal(false)}>
+              <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <button onClick={() => setShowModal(false)} className="modal-close-btn">×</button>
+
+                <div className="modal-header-center">
+                  <div className="modal-profile-img-container">
+                    {data?.profileImg ? <img src={data.profileImg} className="nav-profile-img-inner" /> : <div className="modal-profile-placeholder"></div>}
+                  </div>
+                  <h2>{data?.userId?.name || "Brand Name"}</h2>
+                  <p className="text-muted-custom">{data?.companyType} • {data?.industry}</p>
+                </div>
+
+                <div className="modal-details-grid">
+                  <div className="modal-info-row">
+                    <strong>Website:</strong> <a href={data?.website} target="_blank" rel="noreferrer" className="text-accent-1">{data?.website}</a>
+                  </div>
+                  <div className="modal-info-row">
+                    <strong>Content Type:</strong> {data?.contentType}
+                  </div>
+                  <div className="modal-info-row">
+                    <strong>Collab Budget:</strong> {processBudget(data?.budget)}
+                  </div>
+                  <div className="modal-info-row">
+                    <strong>Contact:</strong> {data?.contact}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* PROFILE CARD (Main Dashboard View) */}
+          <section className="profile-card">
+            <div className="profile-right">
+              <div className="profile-info">
+                <div className="profile-photo">
+                  {data?.profileImg ? <img src={data.profileImg} className="brand-dash-profile-img" /> : "🏢"}
+                </div>
+                <div className="profile-meta">
+                  <div className="profile-name">
+                    {profile?.brandName || profile?.userId?.name || (userId ? "Loading..." : "Your Brand")}
+                  </div>
+                  <div className="profile-sub">
+                    {data?.companyType || (userId ? "Brand profile" : "Brand Profile")}
+                  </div>
                 </div>
               </div>
-            )}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <CurrencySelector />
-              <button className="theme-toggle" onClick={toggleTheme}>
-                {(document.documentElement.getAttribute("data-theme") || "light") === "dark"
-                  ? "☀️"
-                  : "🌙"}
-              </button>
             </div>
-            <div
-              className="nav-profile-icon"
-              onClick={() => setShowModal(true)}
-              title="View Profile"
-            >
-              {data?.profileImg ? (
-                <img src={data.profileImg} alt="Profile" className="nav-profile-img-inner" />
-              ) : (
-                <div className="nav-profile-placeholder">🏢</div>
+
+            <div className="profile-left">
+              {!userId && (
+                <div className="profile-actions">
+                  <button className="btn-outline" onClick={() => navigate("/brand-form")}>Edit Profile</button>
+                  <button className="btn-outline">Settings</button>
+                  <button className="btn-dots">⋯</button>
+                </div>
               )}
             </div>
-          </div>
-        </nav>
+          </section>
 
-        {/* PROFILE MODAL */}
-        {showModal && (
-          <div className="modal-overlay" onClick={() => setShowModal(false)}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-              <button onClick={() => setShowModal(false)} className="modal-close-btn">×</button>
+          {/* ANALYTICS */}
+          <main className="analytics-area">
+            <div className="analytics-grid">
 
-              <div className="modal-header-center">
-                <div className="modal-profile-img-container">
-                  {data?.profileImg ? <img src={data.profileImg} className="nav-profile-img-inner" /> : <div className="modal-profile-placeholder"></div>}
+              {/* CARD 1 — LINE GRAPH */}
+              <div className="card neon-card">
+
+                {/* TEXT */}
+                <div className="rating-header">
+                  <div className="rating-main">
+                    <div className="rating-label">Total Collaborations</div>
+                    <div className="rating-value">
+                      {totalCollabs}
+                    </div>
+                  </div>
                 </div>
-                <h2>{data?.userId?.name || "Brand Name"}</h2>
-                <p className="text-muted-custom">{data?.companyType} • {data?.industry}</p>
+
+                {/* LINE CHART */}
+                <div className="line-chart-wrap">
+                  <LineStatsChart />
+                </div>
+
+                {/* DATE RANGE */}
+                <div className="chart-range">
+                  <span>May 2025</span>
+                  <span>Dec 2025</span>
+                </div>
+
               </div>
 
-              <div className="modal-details-grid">
-                <div className="modal-info-row">
-                  <strong>Website:</strong> <a href={data?.website} target="_blank" rel="noreferrer" className="text-accent-1">{data?.website}</a>
+
+              {/* CARD 2 — BAR GRAPH (REPLACED WITH INFO) */}
+              <div className="card neon-card">
+                <div className="card-head">
+                  <h4>{localizeText("Brand Reach", profile?.brandName || profile?.userId?.name, userId)}</h4>
+                  <div className="card-sub">Audience analytics coming soon.</div>
                 </div>
-                <div className="modal-info-row">
-                  <strong>Content Type:</strong> {data?.contentType}
-                </div>
-                <div className="modal-info-row">
-                  <strong>Collab Budget:</strong> {processBudget(data?.budget)}
-                </div>
-                <div className="modal-info-row">
-                  <strong>Contact:</strong> {data?.contact}
+                <div className="card-body" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px' }}>
+                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.9rem' }}>Reach Statistics Visualization</span>
                 </div>
               </div>
 
-            </div>
-          </div>
-        )}
-
-        {/* PROFILE CARD (Main Dashboard View) */}
-        <section className="profile-card">
-          <div className="profile-right">
-            <div className="profile-info">
-              <div className="profile-photo">
-                {data?.profileImg ? <img src={data.profileImg} className="brand-dash-profile-img" /> : "🏢"}
-              </div>
-              <div className="profile-meta">
-                <div className="profile-name">
-                  {profile?.brandName || profile?.userId?.name || (userId ? "Loading..." : "Your Brand")}
+              {/* CARD 3 — SUCCESSFUL COLLABORATIONS */}
+              <div className="card neon-card">
+                <div className="card-head">
+                  <h4>Successful Collaborations</h4>
+                  <div className="card-sub">Completed on Collaborator</div>
                 </div>
-                <div className="profile-sub">
-                  {data?.companyType || (userId ? "Brand profile" : "Brand Profile")}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="profile-left">
-            {!userId && (
-              <div className="profile-actions">
-                <button className="btn-outline" onClick={() => navigate("/brand-form")}>Edit Profile</button>
-                <button className="btn-outline">Settings</button>
-                <button className="btn-dots">⋯</button>
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* ANALYTICS */}
-        <main className="analytics-area">
-          <div className="analytics-grid">
-
-            {/* CARD 1 — LINE GRAPH */}
-            <div className="card neon-card">
-
-              {/* TEXT */}
-              <div className="rating-header">
-                <div className="rating-main">
-                  <div className="rating-label">Total Collaborations</div>
-                  <div className="rating-value">
-                    {totalCollabs}
+                <div className="card-body">
+                  <div className="active-large">{successfulCollabs}</div>
+                  <div className="active-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                    <button className="btn-primary" onClick={() => navigate('/history')}>History</button>
+                    <button className="btn-secondary" onClick={() => navigate('/insights')}>Manage</button>
                   </div>
                 </div>
               </div>
 
-              {/* LINE CHART */}
-              <div className="line-chart-wrap">
-                <LineStatsChart />
-              </div>
-
-              {/* DATE RANGE */}
-              <div className="chart-range">
-                <span>May 2025</span>
-                <span>Dec 2025</span>
-              </div>
-
-            </div>
-
-
-            {/* CARD 2 — BAR GRAPH (REPLACED WITH INFO) */}
-            <div className="card neon-card">
-              <div className="card-head">
-                <h4>{localizeText("Brand Reach", profile?.brandName || profile?.userId?.name, userId)}</h4>
-                <div className="card-sub">Audience analytics coming soon.</div>
-              </div>
-              <div className="card-body" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px' }}>
-                <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.9rem' }}>Reach Statistics Visualization</span>
-              </div>
-            </div>
-
-            {/* CARD 3 — SUCCESSFUL COLLABORATIONS */}
-            <div className="card neon-card">
-              <div className="card-head">
-                <h4>Successful Collaborations</h4>
-                <div className="card-sub">Completed on Collaborator</div>
-              </div>
-              <div className="card-body">
-                <div className="active-large">{successfulCollabs}</div>
-                <div className="active-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                  <button className="btn-primary" onClick={() => navigate('/brand/history')}>History</button>
-                  <button className="btn-secondary" onClick={() => navigate('/brand/collab-insights')}>Manage</button>
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 4 — BADGES */}
-            <div className="card neon-card">
-              <div className="card-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <h4>{localizeText("Brand Badges", profile?.brandName || profile?.userId?.name, userId)}</h4>
-                  <div className="card-sub">Achievements</div>
-                </div>
-                <span style={{ fontSize: '10px', background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: '10px', color: 'rgba(255,255,255,0.6)' }}>COMING SOON</span>
-              </div>
-              <div className="badges-grid">
-                {badges.map((b, i) => (
-                  <div className="badge" key={i}>
-                    <div className="badge-icon badge-gradient">🏅</div>
-                    <div className="badge-name">{b}</div>
+              {/* CARD 4 — BADGES */}
+              <div className="card neon-card">
+                <div className="card-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h4>{localizeText("Brand Badges", profile?.brandName || profile?.userId?.name, userId)}</h4>
+                    <div className="card-sub">Achievements</div>
                   </div>
-                ))}
+                  <span style={{ fontSize: '10px', background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: '10px', color: 'rgba(255,255,255,0.6)' }}>COMING SOON</span>
+                </div>
+                <div className="badges-grid">
+                  {badges.map((b, i) => (
+                    <div className="badge" key={i}>
+                      <div className="badge-icon badge-gradient">🏅</div>
+                      <div className="badge-name">{b}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
 
+            </div>
+          </main>
           </div>
-        </main>
+        </div>
       </div>
 
       {/* FLOATING CHAT BUTTON */}
@@ -313,7 +319,7 @@ export default function BrandDashboard() {
         </button>
       )}
 
-    </div >
+    </div>
   );
 }
 

@@ -160,16 +160,26 @@ export default function CollabLanding() {
         </p>
 
         <div className="collab-actions">
-          <button
-            className="btn-primary big-btn" onClick={() => navigate("/influencer-form")} >
-            I'm an Influencer
-          </button>
+          {user && (user.role === 'brand' || user.role === 'influencer') ? (
+            <button
+              className="btn-primary big-btn" 
+              onClick={() => navigate(user.role === 'brand' ? '/brand-dashboard' : '/influencer-dashboard')}
+            >
+              Go to my Dashboard
+            </button>
+          ) : (
+            <>
+              <button
+                className="btn-primary big-btn" onClick={() => navigate("/influencer-form")} >
+                I'm an Influencer
+              </button>
 
-          <button
-            className="btn-secondary big-btn" onClick={() => navigate("/brand-form")}>
-            I'm a Brand
-          </button>
-
+              <button
+                className="btn-secondary big-btn" onClick={() => navigate("/brand-form")}>
+                I'm a Brand
+              </button>
+            </>
+          )}
         </div>
       </div>
 

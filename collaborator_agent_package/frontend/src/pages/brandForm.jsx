@@ -186,6 +186,12 @@ export default function BrandForm() {
           ← Back
         </button>
 
+        {user?.role === "brand" && (
+          <button className="brand-back-btn" onClick={() => navigate("/brand-dashboard")} style={{ marginLeft: '10px', color: '#6366f1' }}>
+             Dashboard →
+          </button>
+        )}
+
         <div className="brand-top-right">
           <CurrencySelector />
           <button className="brand-toggle-btn" onClick={toggleTheme}>

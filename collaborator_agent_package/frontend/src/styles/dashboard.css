@@ -1,69 +1,84 @@
-/* global.css */
-:root {
-    --primary: #6366f1;
-    --primary-glow: rgba(99, 102, 241, 0.5);
-    --secondary: #a855f7;
-    --accent: #22d3ee;
-    --bg-dark: #0d0d12;
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.08);
-    --text-main: #ffffff;
-    --text-muted: rgba(255, 255, 255, 0.5);
-}
+/* dashboard.css - REBUILT AND IMPROVED */
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-main);
+/* global layout updates */
+.dashboard-wrapper {
+    min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
+    background: #020617; /* Darker navy for premium feel */
 }
 
-/* dashboard.css */
 .influencer-dashboard {
     display: flex;
     min-height: 100vh;
 }
 
+.dashboard-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    transition: margin-left 0.3s ease;
+}
+
 .influencer-main {
     flex: 1;
-    margin-left: 260px;
-    padding: 2rem;
+    padding: 1.5rem 2.5rem;
     max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .influencer-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
-    margin-bottom: 2rem;
+    padding: 1.2rem 2.5rem;
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(10px);
+    background: rgba(10, 10, 15, 0.6);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+}
+
+.influencer-navbar.scrolled {
+    background: rgba(10, 10, 15, 0.9);
+    padding: 0.8rem 2.5rem;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
 }
 
 .nav-brand {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 800;
-    background: linear-gradient(to right, #fff, var(--text-muted));
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.5) 100%);
     -webkit-background-clip: text;
-    background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
 }
 
-.profile-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
+/* Card Base */
+.profile-card, .card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 24px;
     padding: 2rem;
+    backdrop-filter: blur(20px);
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Card Specifics */
+.profile-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2.5rem;
-    backdrop-filter: blur(20px);
 }
 
 .profile-info {
@@ -77,7 +92,12 @@ body {
     height: 80px;
     border-radius: 20px;
     overflow: hidden;
-    border: 2px solid var(--border);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
 }
 
 .profile-photo img {
@@ -89,70 +109,46 @@ body {
 .profile-name {
     font-size: 1.6rem;
     font-weight: 700;
+    color: #fff;
     margin-bottom: 0.2rem;
 }
 
 .profile-sub {
-    color: var(--text-muted);
-    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
 }
 
-.analytics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
-.neon-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 2rem;
-    transition: all 0.3s ease;
+/* Buttons & Actions */
+.profile-actions {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.neon-card:hover {
-    border-color: rgba(99, 102, 241, 0.4);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
-    transform: translateY(-4px);
-}
-
-.card-head h4 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: #fff;
-}
-
-.card-sub {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 0.3rem;
+    gap: 12px;
 }
 
 .btn-primary-gradient {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     color: #fff;
     border: none;
-    padding: 0.8rem 1.5rem;
+    padding: 10px 24px;
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .btn-primary-gradient:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 20px var(--primary-glow);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
 }
 
 .btn-outline {
     background: transparent;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: #fff;
-    padding: 0.8rem 1.2rem;
+    padding: 10px 20px;
     border-radius: 12px;
     font-weight: 500;
     cursor: pointer;
@@ -161,11 +157,168 @@ body {
 
 .btn-outline:hover {
     background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Analytics Grid */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-card, .neon-card {
+    height: 100%;
+}
+
+.rating-header {
+    margin-bottom: 1.5rem;
+}
+
+.rating-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.rating-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Standardize Icon Buttons */
+.mobile-menu-btn, .theme-toggle, .nav-profile-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn:hover, .theme-toggle:hover, .nav-profile-icon:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.nav-profile-icon {
+    overflow: hidden;
+    background: rgba(168, 85, 247, 0.1);
+    border-color: rgba(168, 85, 247, 0.2);
+}
+
+.nav-profile-placeholder {
+    font-size: 1.2rem;
+}
+
+.nav-profile-img-inner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Sidebar margin handling */
+@media (min-width: 1025px) {
+    .sidebar-open .dashboard-content {
+        margin-left: 260px;
+    }
 }
 
 @media (max-width: 1024px) {
-    .influencer-main {
-        margin-left: 80px;
-        padding: 1rem;
+    .dashboard-content {
+        margin-left: 0 !important;
     }
+    .influencer-navbar {
+        padding: 1rem 1.5rem;
+    }
+    .influencer-main {
+        padding: 1.5rem;
+    }
+    .profile-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+}
+
+.floating-chat-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
+    transition: transform 0.2s;
+}
+
+.floating-chat-btn:hover {
+    transform: scale(1.1);
+}
+
+.glowing-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background: #ff4d4d;
+    border: 2px solid #0d0d12;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff4d4d;
 }

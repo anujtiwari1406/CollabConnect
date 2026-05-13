@@ -60,17 +60,18 @@ export const authService = {
     },
 
     getMe: async (token) => {
-        // Temporary set header just for this request if needed, 
-        // OR rely on interceptor if we saved token to localStorage first
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         };
         const response = await axios.get(`${API_URL}/me`, config);
-        // Ensure we save the full user data including token to local storage
+        if (response.data) {
+            // Include token back in the data so it remains available in state/storage
+            const userData = { ...response.data, token };
             localStorage.setItem("collaborator_user", JSON.stringify(userData));
             return userData;
+        }
         return null;
     }
 };
